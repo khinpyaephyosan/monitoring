@@ -2,6 +2,8 @@
 - name: monitor linux server
   hosts: all
   sudo: yes
+  become_user: srvmgmt
+  
   vars:
     date: "{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}"
     cpu_mem: CPU
