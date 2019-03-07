@@ -4,8 +4,8 @@
  # sudo: yes
   vars:
     date: "{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}"
-    cpu_mem: CPU
-    key: High CPU utilization
+    cpu_mem: "CPU"
+    key: "High CPU utilization"
   tasks:
     - name: top command
       shell: 
