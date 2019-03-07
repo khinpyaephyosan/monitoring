@@ -1,0 +1,46 @@
+---
+- name: monitor linux server
+  hosts: zabbix
+  sudo: yes
+  vars:
+    date: "{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}"
+    cpu_mem: CPU
+    key: High CPU utilization
+  tasks:
+    - name: top command
+      shell: 
+        cmd: "top -b -c -n 1 -o %{{ cpu_mem }} | head -n 18"
+      register: monitor_result
+      when: key == "High memory utilization" or key == "High CPU utilization"
+
+    - name: save top output 
+      copy:
+       content: "{{ monitor_result.stdout }}"
+       dest: "/opt/{{ inventory_hostname }}-{{ date }}-{{ key }}.csv"
+      delegate_to: localhost
+      when: key == "High memory utilization" or key == "High CPU utilization"
+
+    - name: df command
+      shell:
+        cmd: "df -hT"
+      register: disk
+      when: key == "Disk space is critically low"
+    
+    - name: save df output
+      copy:
+        content: "{{ disk.stdout }}"
+        dest: "/opt/{{ inventory_hostname }}-{{ date }}-{{ key }}.csv"
+      delegate_to: localhost
+      when: key == "Disk space is critically low"
+
+    - name: sent mail
+      mail:
+        host: 10.5.0.99
+        subject: Monitoring report
+        body: "This is monitoring report for {{ inventory_hostname }}" 
+        from: do-not-reply@kbzgateway.com
+        to: khinpyaephyo.san@kbzgateway.com
+        cc: khinpyaephyosan@gmail.com
+        attach: "/opt/{{ inventory_hostname }}-{{ date }}-{{ key }}.csv"
+      delegate_to: localhost
+        
