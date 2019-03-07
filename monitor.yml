@@ -10,14 +10,14 @@
       shell: 
         cmd: "top -b -c -n 1 -o %{{ cpu_mem }} | head -n 18"
       register: monitor_result
-      #when: key == "High memory utilization" or key == "High CPU utilization"
+      when: key == "High memory utilization" or key == "High CPU utilization"
 
     - name: save top output 
       copy:
        content: "{{ monitor_result.stdout }}"
        dest: "/opt/{{ inventory_hostname }}-{{ date }}-{{ key }}.csv"
       delegate_to: localhost
-      #when: key == "High memory utilization" or key == "High CPU utilization"
+      when: key == "High memory utilization" or key == "High CPU utilization"
 
     - name: df command
       shell:
