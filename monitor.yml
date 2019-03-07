@@ -1,6 +1,8 @@
 ---
 - name: monitor linux server
   hosts: all
+  become=True
+  become_method=sudo
   become_user: srvmgmt
   
   vars:
