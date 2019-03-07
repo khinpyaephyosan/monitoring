@@ -3,8 +3,8 @@
   hosts: all  
   vars:
     date: "{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}"
-    cpu_mem: CPU
-    key: High CPU utilization
+#    cpu_mem: CPU
+#    key: High CPU utilization
   tasks:
     - name: top command
       shell: 
@@ -19,18 +19,18 @@
       delegate_to: localhost
       #when: key == "High memory utilization" or key == "High CPU utilization"
 
-    #- name: df command
-    #  shell:
-    #    cmd: "df -hT"
-    #  register: disk
-    #  when: key == "Disk space is critically low"
+    - name: df command
+      shell:
+        cmd: "df -hT"
+      register: disk
+      when: key == "Disk space is critically low"
     
-    #- name: save df output
-    #  copy:
-    #    content: "{{ disk.stdout }}"
-    #    dest: "/opt/{{ inventory_hostname }}-{{ date }}-{{ key }}.csv"
-    #  delegate_to: localhost
-    #  when: key == "Disk space is critically low"
+    - name: save df output
+      copy:
+        content: "{{ disk.stdout }}"
+        dest: "/opt/{{ inventory_hostname }}-{{ date }}-{{ key }}.csv"
+      delegate_to: localhost
+      when: key == "Disk space is critically low"
 
     - name: sent mail
       mail:
