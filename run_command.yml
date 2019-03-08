@@ -1,6 +1,6 @@
 ---
 - name: monitor linux server
-  hosts: all  
+  hosts: "{{ target_host }}"
   vars:
     date: "{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}"
   tasks:
