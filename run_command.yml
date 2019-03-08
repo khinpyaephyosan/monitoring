@@ -7,13 +7,14 @@
     - name: run command
       shell: 
         cmd: "{{ run_command }}"
+      delegate_to: "{{ target_host }}"
       register: monitor_result
       
     - name: save top output 
       copy:
        content: "{{ monitor_result.stdout }}"
        dest: "/opt/{{ target_host }}-{{ date }}.csv"
-      delegate_to: "{{ target_host }}"
+      delegate_to: localhost
       
     - name: sent mail
       mail:
