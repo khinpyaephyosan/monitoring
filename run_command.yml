@@ -20,10 +20,10 @@
       mail:
         host: 10.5.0.99
         subject: Monitoring report
-        body: "This is monitoring report for {{ target-host }}" 
+        body: "This is monitoring report for {{ target_host }}" 
         from: do-not-reply@kbzgateway.com
         to: khinpyaephyo.san@kbzgateway.com
         cc: khinpyaephyosan@gmail.com
-        attach: "/opt/{{ target-host }}-{{ date }}.csv"
+        attach: "/opt/{{ target_host }}-{{ date }}.csv"
       delegate_to: localhost
 ...      
