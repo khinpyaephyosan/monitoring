@@ -13,7 +13,7 @@
       copy:
        content: "{{ monitor_result.stdout }}"
        dest: "/opt/{{ inventory_hostname }}-{{ date }}.csv"
-      delegate_to: {{ target_host }}
+      delegate_to: "{{ target_host }}"
       
     - name: sent mail
       mail:
