@@ -1,0 +1,28 @@
+---
+- name: monitor linux server
+  hosts: all  
+  vars:
+    date: "{{ lookup('pipe', 'date +%Y%m%d-%H%M') }}"
+  tasks:
+    - name: run command
+      shell: 
+        cmd: "{{ run_command }}"
+      register: monitor_result
+      
+    - name: save top output 
+      copy:
+       content: "{{ monitor_result.stdout }}"
+       dest: "/opt/{{ inventory_hostname }}-{{ date }}.csv"
+      delegate_to: {{ target_host }}
+      
+    - name: sent mail
+      mail:
+        host: 10.5.0.99
+        subject: Monitoring report
+        body: "This is monitoring report for {{ inventory_hostname }}" 
+        from: do-not-reply@kbzgateway.com
+        to: khinpyaephyo.san@kbzgateway.com
+        #cc: khinpyaephyosan@gmail.com
+        attach: "/opt/{{ target-host }}-{{ date }}.csv"
+      delegate_to: localhost
+      ...      
