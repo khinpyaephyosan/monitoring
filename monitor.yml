@@ -38,7 +38,7 @@
         subject: Monitoring report
         body: "This is monitoring report for {{ inventory_hostname }}" 
         from: do-not-reply@kbzgateway.com
-        to: khinpyaephyo.san@kbzgateway.com
+        to: {{ mail_addr }}
         cc: khinpyaephyosan@gmail.com
         attach: "/opt/{{ inventory_hostname }}-{{ date }}-{{ key }}.csv"
       delegate_to: localhost
