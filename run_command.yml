@@ -22,9 +22,8 @@
         subject: Monitoring report
         body: "Proof for high {{ cpu_mem_storage }} utilization on {{ target_host }}" 
         from: do-not-reply@kbzgateway.com 
-        to: khinpyaephyo.san@kbzgateway.com
-        #it-vm-opensys@kbzgateway.com 
-        #cc: aung.moe@kbzgateway.com 
+        to: {{ mail_addr }}
+        #cc:  
         attach: "/opt/{{ target_host }}-{{ date }}.csv"
       delegate_to: localhost
 ...      
