@@ -34,7 +34,7 @@
 
     - name: sent mail
       mail:
-        host: 10.5.0.99
+        host: {{ smtp_svr }}
         subject: Monitoring report
         body: "This is monitoring report for {{ inventory_hostname }}" 
         from: do-not-reply@kbzgateway.com
